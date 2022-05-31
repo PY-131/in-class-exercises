@@ -1,0 +1,1 @@
+stop_words= ['the', 'of', 'a', 'an', 'and', 'is', 'as', 'to', 'by', 'in', 'for']

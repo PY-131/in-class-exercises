@@ -30,21 +30,22 @@ Modify the code to do the following:
 
 from pprint import pprint as pp
 from collections import Counter 
-
+#from words import stop_words
 
 class TextAnalysis:
 
     def __init__(self, file_):
         self.file_ = file_
 
-    def get_frequency(self, n=5):
+    def get_frequency(self, n=5,stop_words=[]):
 
         freq = {}
         with open(self.file_) as f:
             data = f.read().split()
             for wd in data:
                 wd = wd.lower()
-                #wd = replace_punct(wd)
+                if wd in stop_words:
+                    continue 
                 if wd.isalpha():
                     if wd in freq:
                         freq[wd] += 1 
@@ -109,11 +110,33 @@ class WordInfo:
 
 
 
+def get_word_counts(file_= "data/text1.txt", n=5):
+
+    res = Counter()
+    with open(file_) as f:
+        data = f.read().split()
+        for wd in data:
+            wd = wd.lower()
+            res[wd] += 1
+    return res
+
+
+def load_stop_words(file_ = "data/stop_words.txt"):
+    words = []
+    with open(file_, "r") as f:
+        for line in f.readlines():
+            line = line.strip()
+            words.append(line)
+    return words
+
+
 if __name__ == '__main__':
     # wd = WordInfo("apple")
     # print(wd.count_vowels())
     # print(wd.count_consonants())
     # print(wd.populate_count_dict())
 
-    print(TextAnalysis("data/text1.txt").get_freq_with_counter())
+    # print(TextAnalysis("data/text1.txt").get_freq_with_counter())
+    stop_words = load_stop_words()
     print(TextAnalysis("data/text1.txt").get_frequency())
+    print(TextAnalysis("data/text1.txt").get_frequency(stop_words=stop_words))
